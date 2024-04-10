@@ -56,13 +56,15 @@ def leaderboard(message):
     try:
         if message.chat.id == -1001803357579:
             lead = db.get_all_stats()
-            msg = "User's Stats\n"
-            for acs in lead:
-                msg += f"*@{get_username(acs[0])}: {acs[1]}\n*"
+            print(f"{lead}")
+            sorted_data = sorted(lead, key=lambda x: abs(x[0]), reverse=True)
+            print(sorted_data)
+            msg = "All Users stat\n"
+            for x in sorted_data:
+                msg+= f"*@{get_username(x[0])}: {x[1]}*\n"
                 
             bot.send_message(message.chat.id, msg, parse_mode='Markdown')
-        else:
-            bot.reply_to(message, "to use this bot, please join https://t.me/nitefeedereth (Join group from Portal)")
+
     except Exception as e:
         print(e)
 
@@ -79,8 +81,12 @@ def poll(message):
         global ind
         ind = opts.index(correct_answer)
         print(ind)
-        poll_message = bot.send_poll(message.chat.id, question, options=opts, type="quiz", is_anonymous=False, correct_option_id=ind, open_period=600)  
+        poll_message = bot.send_poll(message.chat.id, question, options=opts, type="quiz", is_anonymous=False, correct_option_id=ind, open_period=300)
         poll_id = poll_message.poll.id
+        bot.pin_chat_message(message.chat.id, poll_message.message_id)
+        print(poll_id)
+
+"""1803357579"""
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -116,10 +122,9 @@ def handle(poll_answer):
     x += 10
     db.update_points(x, user_id)
     print(db.get_points(user_id))
-    caption = f"@{get_username(user_id)} Gained 50 Points and has feed his kiwi with {random.randint(1,10)} Bottles of Milk "
+    caption = f"@{get_username(user_id)} Gained 50 Points and has fed his kiwi with {random.randint(1,10)} Bottles of Milk "
     photo = open("img.jpg", 'rb')
     bot.send_photo(-1001803357579, photo, caption)
         
-
 
 bot.infinity_polling()
