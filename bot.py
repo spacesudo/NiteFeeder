@@ -57,12 +57,11 @@ def leaderboard(message):
         if message.chat.id == -1001803357579:
             lead = db.get_all_stats()
             print(f"{lead}")
-            sorted_data = sorted(lead, key=lambda x: abs(x[0]), reverse=True)
-            print(sorted_data)
-            msg = "All Users stat\n"
-            for x in sorted_data:
-                msg+= f"*@{get_username(x[0])}: {x[1]}*\n"
-                
+            x = dict(lead)
+            sorted_users = sorted(x.items(), key=lambda x: x[1], reverse=True)
+            msg = ""
+            for user, stats in sorted_users:
+            msg += f"{user} : {stats}\n"
             bot.send_message(message.chat.id, msg, parse_mode='Markdown')
 
     except Exception as e:
