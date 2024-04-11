@@ -11,7 +11,7 @@ QUIZ_URL = 'https://opentdb.com/api.php?amount=1&category=9&difficulty=medium&ty
 db = Users()
 db.setup()
 
-bot = telebot.TeleBot('Token')
+bot = telebot.TeleBot('7005829884:AAF0XrxAtmc1r7L4C2v6Ve60973qETXTb_A')
 
 def get_quiz():
     try:
