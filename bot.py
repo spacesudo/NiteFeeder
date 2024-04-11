@@ -61,7 +61,7 @@ def leaderboard(message):
             sorted_users = sorted(x.items(), key=lambda x: x[1], reverse=True)
             msg = ""
             for user, stats in sorted_users:
-            msg += f"{user} : {stats}\n"
+            msg += f"{get_username(user)} : {stats}\n"
             bot.send_message(message.chat.id, msg, parse_mode='Markdown')
 
     except Exception as e:
