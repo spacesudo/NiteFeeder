@@ -48,3 +48,4 @@ class Users:
     def get_all_stats(self):
         statement = "SELECT chatid, points FROM users"
         return [x for x in self.conn.execute(statement)]
+    

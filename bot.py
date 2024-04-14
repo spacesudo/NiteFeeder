@@ -11,7 +11,7 @@ QUIZ_URL = 'https://opentdb.com/api.php?amount=1&category=9&difficulty=medium&ty
 db = Users()
 db.setup()
 
-bot = telebot.TeleBot('Token)
+bot = telebot.TeleBot('Token')
 
 def get_quiz():
     try:
@@ -54,14 +54,14 @@ def check(user_id, chat_id):
 @bot.message_handler(commands=['leaderboard'])
 def leaderboard(message):
     try:
-        if message.chat.id == -1001803357579:
+        if message.chat.id == -1002083631758:
             lead = db.get_all_stats()
             print(f"{lead}")
             x = dict(lead)
             sorted_users = sorted(x.items(), key=lambda x: x[1], reverse=True)
-            msg = ""
+            msg = "*LeaderBoard\n*"
             for user, stats in sorted_users:
-            msg += f"{get_username(user)} : {stats}\n"
+                msg += f"*{get_username(user)} : {stats}*\n"
             bot.send_message(message.chat.id, msg, parse_mode='Markdown')
 
     except Exception as e:
@@ -82,14 +82,16 @@ def poll(message):
         print(ind)
         poll_message = bot.send_poll(message.chat.id, question, options=opts, type="quiz", is_anonymous=False, correct_option_id=ind, open_period=300)
         poll_id = poll_message.poll.id
-        bot.pin_chat_message(message.chat.id, poll_message.message_id)
+        bot.pin_chat_message(message.chat.id, poll_message.message_id, disable_notification= True)
+        time.sleep(350)
+        bot.delete_message(message.chat.id, poll_message.message_id)
         print(poll_id)
 
-"""1803357579"""
+"""2083631758"""
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    if message.chat.id == -1001803357579:
+    if message.chat.id == -1002083631758:
         owner_id = message.chat.id
         db.add_user(owner_id)
         print(owner_id)
@@ -121,9 +123,9 @@ def handle(poll_answer):
     x += 10
     db.update_points(x, user_id)
     print(db.get_points(user_id))
-    caption = f"@{get_username(user_id)} Gained 50 Points and has fed his kiwi with {random.randint(1,10)} Bottles of Milk "
-    photo = open("img.jpg", 'rb')
-    bot.send_photo(-1001803357579, photo, caption)
+    caption = f"@{get_username(user_id)} Gained 10 Points and has fed his kiwi with {random.randint(1,10)} Bottles of Milk "
+    video = open("video.mp4", 'rb')
+    bot.send_video(-1002083631758, video, caption=caption)
         
 
 bot.infinity_polling()
