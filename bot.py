@@ -54,7 +54,7 @@ def check(user_id, chat_id):
 @bot.message_handler(commands=['leaderboard'])
 def leaderboard(message):
     try:
-        if message.chat.id == -1002083631758:
+        if message.chat.id == -1001803357579:
             lead = db.get_all_stats()
             print(f"{lead}")
             x = dict(lead)
@@ -87,11 +87,11 @@ def poll(message):
         bot.delete_message(message.chat.id, poll_message.message_id)
         print(poll_id)
 
-"""2083631758"""
+"""1803357579"""
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    if message.chat.id == -1002083631758:
+    if message.chat.id == -1001803357579:
         owner_id = message.chat.id
         db.add_user(owner_id)
         print(owner_id)
@@ -125,7 +125,7 @@ def handle(poll_answer):
     print(db.get_points(user_id))
     caption = f"@{get_username(user_id)} Gained 10 Points and has fed his kiwi with {random.randint(1,10)} Bottles of Milk "
     video = open("video.mp4", 'rb')
-    bot.send_video(-1002083631758, video, caption=caption)
+    bot.send_video(-1001803357579, video, caption=caption)
         
 
 bot.infinity_polling()
